@@ -25,22 +25,25 @@ namespace Lab01
         static void Main(string[] args)
         {
             Backpack backpack = new Backpack();
+            int itemQ = 10;
 
-            Console.WriteLine("Default Backpack capacity : " + backpack.Capacity());
-            Console.WriteLine("Set other? (Y/N)");
+            Console.WriteLine("Default Backpack capacity : " + backpack.Capacity() + "   Item quantity : " + itemQ);
+            Console.WriteLine("Set other capacity and items quantity? (Y/N)");
             string choise = Console.ReadLine();
             if (choise == "Y")
             {
-                Console.WriteLine("Set custom backpack capacity");
+                Console.WriteLine("Set custom backpack capacity:");
                 int customCapacity = Convert.ToInt32(Console.ReadLine());
                 backpack.setCapacity(customCapacity);
-             }
+                Console.WriteLine("Set custom items quantity:");
+                itemQ  = Convert.ToInt32(Console.ReadLine());
+            }
 
             Console.WriteLine("----------------------");
 
             List<Item> list = new List<Item>();
 
-            for(int i = 0; i < 10; i++)
+            for(int i = 0; i < itemQ; i++)
             {
                 Item item = new Item();
                 list.Add(item);

@@ -12,16 +12,29 @@ namespace Lab01
 
         int weight;
         int price;
-        int will_fit;
+        int id;
 
+        public Item() 
+        {
+            weight = rnd.Next(1,30);
+            price = rnd.Next(1,30);
+        }
         public int getWeight()
         {
-            return weight = rnd.Next(1,30);
+            return weight;
         }
 
         public int getPrice()
         {
-            return price= rnd.Next(1,30); 
+            return price; 
+        }
+        public void setId(int id)
+        {
+            this.id = id;
+        }
+        public int getId()
+        {
+            return id;
         }
     }
 }

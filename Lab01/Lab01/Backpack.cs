@@ -9,14 +9,37 @@ namespace Lab01
     internal class Backpack
     {
         int capacity = 30;
+        int priceInBackpack = 0;
+        bool full = false;
         
         public int Capacity()
         { 
-                return capacity;
+            return capacity;
         }
-        public int addToBackpack(int weight)
+        public int PriceInBackpack()
         {
-            return capacity - weight;
+            return priceInBackpack;
+        }
+        public void addToBackpack(int weight,int price)
+        {
+            if (!full)
+            {
+                if (capacity - weight > 0)
+                {
+                    capacity -= weight;
+                    priceInBackpack += price;
+                }
+                else if(capacity - weight == 0)
+                {
+                    capacity -= weight;
+                    full = true;
+                }
+            }
+        }
+
+        public bool isFull()
+        {
+            return full;
         }
     }
 }

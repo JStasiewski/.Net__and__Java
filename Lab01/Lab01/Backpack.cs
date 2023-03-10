@@ -13,6 +13,10 @@ namespace Lab01
         string itemsId = "";
         bool full = false;
         
+        public void setCapacity(int capacity)
+        {
+            this.capacity = capacity;
+        }
         public int Capacity()
         { 
             return capacity;

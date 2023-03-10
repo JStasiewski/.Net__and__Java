@@ -10,6 +10,7 @@ namespace Lab01
     {
         int capacity = 30;
         int priceInBackpack = 0;
+        string itemsId = "";
         bool full = false;
         
         public int Capacity()
@@ -20,7 +21,11 @@ namespace Lab01
         {
             return priceInBackpack;
         }
-        public void addToBackpack(int weight,int price)
+        public string ItemsId()
+        {
+            return itemsId;
+        }
+        public void addToBackpack(int weight,int price, int id)
         {
             if (!full)
             {
@@ -28,10 +33,13 @@ namespace Lab01
                 {
                     capacity -= weight;
                     priceInBackpack += price;
+                    itemsId += id.ToString() + "   ";
                 }
                 else if(capacity - weight == 0)
                 {
                     capacity -= weight;
+                    priceInBackpack += price;
+                    itemsId += id.ToString() + "   ";
                     full = true;
                 }
             }

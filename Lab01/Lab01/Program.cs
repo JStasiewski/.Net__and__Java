@@ -11,8 +11,7 @@ namespace Lab01
             {
                 if(!backpack.isFull())
                 {
-                    Console.WriteLine(item.getWeight() + "   " + item.getPrice());
-                    backpack.addToBackpack(item.getWeight(),item.getPrice());
+                    backpack.addToBackpack(item.getWeight(),item.getPrice(),item.getId());
                 }
                 else
                 {
@@ -21,6 +20,7 @@ namespace Lab01
             }
             Console.WriteLine("Price colected : " + backpack.PriceInBackpack());
             Console.WriteLine("Capacity : " + backpack.Capacity());
+            Console.WriteLine("Items ID's : " + backpack.ItemsId());
         }
         static void Main(string[] args)
         {
@@ -36,12 +36,9 @@ namespace Lab01
                 Item item = new Item();
                 list.Add(item);
                 list[i].setId(i);
-                Console.WriteLine(i + " Weight: " + list[i].getWeight());
-                Console.WriteLine(i + " Price:  " + list[i].getPrice());
-                Console.WriteLine(i + " ID:  " + list[i].getId());
-                Console.WriteLine("");
+                Console.WriteLine($"Weight: {list[i].getWeight(),2}" + $"   Price: {list[i].getPrice(),2}" + $"   ID: {list[i].getId(),2}");
             }
-
+            Console.WriteLine("");
             Naive(list, backpack);
         }
     }

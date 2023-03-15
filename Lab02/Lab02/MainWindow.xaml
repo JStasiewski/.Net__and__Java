@@ -6,9 +6,11 @@
         xmlns:local="clr-namespace:Lab02"
         mc:Ignorable="d"
         Title="Backpack Problem" Height="450" Width="800">
-    <Grid>
 
-        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Padding="6" VerticalAlignment="Top" Margin="373,44,0,0" Height="30" Width="386" Text="My Program ver. Version"/>
+    <Grid>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Padding="6" VerticalAlignment="Top" Margin="400,300,0,0" Height="30" Width="386" x:Name="result1"/>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Padding="6" VerticalAlignment="Top" Margin="400,340,0,0" Height="30" Width="386" x:Name="result2"/>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Padding="6" VerticalAlignment="Top" Margin="400,380,0,0" Height="30" Width="386" x:Name="result3"/>
     </Grid>
 
 </Window>

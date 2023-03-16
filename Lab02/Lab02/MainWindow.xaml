@@ -9,7 +9,7 @@
 
     <Grid>
         <!--TextBlock Margin="0,130,405,0" x:Name="itemst"/-->
-        <ListBox Margin="20,20,405,20" x:Name="itemst">
+        <ListBox Margin="20,51,405,20" x:Name="itemst">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -19,10 +19,12 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Padding="6" VerticalAlignment="Top" Margin="400,300,0,0" Height="30" Width="386" x:Name="result1"/>
-        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Padding="6" VerticalAlignment="Top" Margin="400,340,0,0" Height="30" Width="386" x:Name="result2"/>
-        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Padding="6" VerticalAlignment="Top" Margin="400,380,0,0" Height="30" Width="386" x:Name="result3"/>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Padding="6" VerticalAlignment="Top" Margin="400,290,0,0" Height="30" Width="386" Text="Price colected :" x:Name="result1"/>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Padding="6" VerticalAlignment="Top" Margin="400,320,0,0" Height="30" Width="386" Text="Capacity left :" x:Name="result2"/>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Padding="6" VerticalAlignment="Top" Margin="400,350,0,0" Height="30" Width="386" Text="Taken ID's :" x:Name="result3"/>
         <Button Content="Button" HorizontalAlignment="Left" Margin="432,20,0,0" VerticalAlignment="Top" Click="Button_Click"/>
+        <Label Content="Items List" HorizontalAlignment="Left" Margin="20,20,0,0" VerticalAlignment="Top" Width="156"/>
+        <Label Content="Naive method results:" HorizontalAlignment="Left" Margin="400,264,0,0" VerticalAlignment="Top" Width="156" RenderTransformOrigin="0.487,0.564"/>
     </Grid>
 
 </Window>

@@ -33,50 +33,47 @@ namespace Lab02
                     break;
                 }
             }
-            //Console.WriteLine("Price colected : " + backpack.PriceInBackpack());
-            //Console.WriteLine("Capacity : " + backpack.Capacity());
-            //Console.WriteLine("Items ID's : " + backpack.ItemsId());
-            
         }
         public MainWindow()
         {
             InitializeComponent();
-            
+        }
+
+        public void Button_Click(object sender, RoutedEventArgs e)
+        {
             Backpack backpack = new Backpack();
             int itemQ = 10;
 
-            Console.WriteLine("Default Backpack capacity : " + backpack.Capacity() + "   Item quantity : " + itemQ);
-            Console.WriteLine("Set other capacity and items quantity? (Y/N)");
-            string choise = Console.ReadLine();
-            if (choise == "Y")
-            {
-                Console.WriteLine("Set custom backpack capacity:");
-                int customCapacity = Convert.ToInt32(Console.ReadLine());
-                backpack.setCapacity(customCapacity);
-                Console.WriteLine("Set custom items quantity:");
-                itemQ = Convert.ToInt32(Console.ReadLine());
-            }
+            //Console.WriteLine("Default Backpack capacity : " + backpack.Capacity() + "   Item quantity : " + itemQ);
+            //Console.WriteLine("Set other capacity and items quantity? (Y/N)");
+            //string choise = Console.ReadLine();
+            //if (choise == "Y")
+            //{
+            //    Console.WriteLine("Set custom backpack capacity:");
+            //    int customCapacity = Convert.ToInt32(Console.ReadLine());
+            //    backpack.setCapacity(customCapacity);
+            //    Console.WriteLine("Set custom items quantity:");
+            //    itemQ = Convert.ToInt32(Console.ReadLine());
+            //}
 
-            Console.WriteLine("----------------------");
+            //Console.WriteLine("----------------------");
 
             List<Item> list = new List<Item>();
             //itemst.ItemsSource = new List<Item>();
-
+            itemst.Items.Clear();
             for (int i = 0; i < itemQ; i++)
             {
                 Item item = new Item();
                 list.Add(item);
                 list[i].setId(i);
                 itemst.Items.Add($"Weight: {list[i].getWeight(),2}" + $"   Price: {list[i].getPrice(),2}" + $"   ID: {list[i].getId(),2}");
-                //itemst.Text = $"Weight: {list[i].getWeight(),2}" + $"   Price: {list[i].getPrice(),2}" + $"   ID: {list[i].getId(),2}";
             }
-            
+
 
             Naive(list, backpack);
             result1.Text = "Price colected : " + backpack.PriceInBackpack().ToString();
             result2.Text = "Capacity left : " + backpack.Capacity().ToString();
             result3.Text = "Taken items ID's : " + backpack.ItemsId().ToString();
-
         }
     }
 }

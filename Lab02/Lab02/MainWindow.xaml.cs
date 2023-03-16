@@ -60,14 +60,17 @@ namespace Lab02
             Console.WriteLine("----------------------");
 
             List<Item> list = new List<Item>();
+            //itemst.ItemsSource = new List<Item>();
 
             for (int i = 0; i < itemQ; i++)
             {
                 Item item = new Item();
                 list.Add(item);
                 list[i].setId(i);
-                Console.WriteLine($"Weight: {list[i].getWeight(),2}" + $"   Price: {list[i].getPrice(),2}" + $"   ID: {list[i].getId(),2}");
+                itemst.Items.Add($"Weight: {list[i].getWeight(),2}" + $"   Price: {list[i].getPrice(),2}" + $"   ID: {list[i].getId(),2}");
+                //itemst.Text = $"Weight: {list[i].getWeight(),2}" + $"   Price: {list[i].getPrice(),2}" + $"   ID: {list[i].getId(),2}";
             }
+            
 
             Naive(list, backpack);
             result1.Text = "Price colected : " + backpack.PriceInBackpack().ToString();

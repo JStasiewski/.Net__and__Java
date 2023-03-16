@@ -8,6 +8,17 @@
         Title="Backpack Problem" Height="450" Width="800">
 
     <Grid>
+        <!--TextBlock Margin="0,130,405,0" x:Name="itemst"/-->
+        <ListBox Margin="20,20,405,20" x:Name="itemst">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
         <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Padding="6" VerticalAlignment="Top" Margin="400,300,0,0" Height="30" Width="386" x:Name="result1"/>
         <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Padding="6" VerticalAlignment="Top" Margin="400,340,0,0" Height="30" Width="386" x:Name="result2"/>
         <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Padding="6" VerticalAlignment="Top" Margin="400,380,0,0" Height="30" Width="386" x:Name="result3"/>

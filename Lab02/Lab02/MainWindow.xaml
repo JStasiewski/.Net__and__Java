@@ -5,11 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lab02"
         mc:Ignorable="d"
-        Title="Backpack Problem" Height="450" Width="800">
+        Title="Backpack Problem" Height="450" Width="800" ResizeMode="NoResize">
 
     <Grid>
-        <!--TextBlock Margin="0,130,405,0" x:Name="itemst"/-->
-        <ListBox Margin="20,51,405,20" x:Name="itemst">
+        <Label Content="Items List" HorizontalAlignment="Left" Margin="20,155,0,0" VerticalAlignment="Top" Width="156"/>
+        <Label Content="Naive method results:" HorizontalAlignment="Left" Margin="400,264,0,0" VerticalAlignment="Top" Width="156" RenderTransformOrigin="0.487,0.564"/>
+        <Label Content="Backpack capacity :" Margin="14,15,0,0"/>
+        <Label Content="Items quantity :" Margin="14,75,0,0"/>
+        
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Padding="6" VerticalAlignment="Top" Margin="400,350,0,0" Height="30" Width="386" Text="Taken ID's :" x:Name="result3"/>
+        </ScrollViewer>
+        
+        <ListBox Margin="20,182,405,20" x:Name="itemst">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -21,10 +29,11 @@
 
         <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Padding="6" VerticalAlignment="Top" Margin="400,290,0,0" Height="30" Width="386" Text="Price colected :" x:Name="result1"/>
         <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Padding="6" VerticalAlignment="Top" Margin="400,320,0,0" Height="30" Width="386" Text="Capacity left :" x:Name="result2"/>
-        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Padding="6" VerticalAlignment="Top" Margin="400,350,0,0" Height="30" Width="386" Text="Taken ID's :" x:Name="result3"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="432,20,0,0" VerticalAlignment="Top" Click="Button_Click"/>
-        <Label Content="Items List" HorizontalAlignment="Left" Margin="20,20,0,0" VerticalAlignment="Top" Width="156"/>
-        <Label Content="Naive method results:" HorizontalAlignment="Left" Margin="400,264,0,0" VerticalAlignment="Top" Width="156" RenderTransformOrigin="0.487,0.564"/>
+        
+        
+        <TextBox HorizontalAlignment="Left" Margin="20,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" VerticalContentAlignment="Center" Text="30"  Width="80" Height="26" x:Name="BackpackC"/>
+        <TextBox HorizontalAlignment="Left" Margin="20,100,0,0" TextWrapping="Wrap" VerticalAlignment="Top" VerticalContentAlignment="Center" Text="10"  Width="80" Height="26" x:Name="ItemsQ"/>
+        <Button Content="Run" HorizontalAlignment="Left" Margin="432,20,0,0" VerticalAlignment="Top" Click="Button_Click"/>
     </Grid>
 
 </Window>

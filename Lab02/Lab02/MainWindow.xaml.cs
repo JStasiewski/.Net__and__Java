@@ -42,7 +42,6 @@ namespace Lab02
         public void Button_Click(object sender, RoutedEventArgs e)
         {
             Backpack backpack = new Backpack();
-            int itemQ = 10;
 
             //Console.WriteLine("Default Backpack capacity : " + backpack.Capacity() + "   Item quantity : " + itemQ);
             //Console.WriteLine("Set other capacity and items quantity? (Y/N)");
@@ -60,8 +59,9 @@ namespace Lab02
 
             List<Item> list = new List<Item>();
             //itemst.ItemsSource = new List<Item>();
+            backpack.setCapacity(Convert.ToInt32(BackpackC.Text));
             itemst.Items.Clear();
-            for (int i = 0; i < itemQ; i++)
+            for (int i = 0; i < Convert.ToInt32(ItemsQ.Text); i++)
             {
                 Item item = new Item();
                 list.Add(item);

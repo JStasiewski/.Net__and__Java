@@ -10,31 +10,31 @@ namespace Lab01
     {
         Random rnd = new Random();
 
-        int weight;
-        int price;
-        int id;
+        int _weight;
+        int _price;
+        int _id;
 
         public Item() 
         {
-            weight = rnd.Next(1,30);
-            price = rnd.Next(1,30);
+            _weight = rnd.Next(1,30);
+            _price = rnd.Next(1,30);
         }
         public int getWeight()
         {
-            return weight;
+            return _weight;
         }
 
         public int getPrice()
         {
-            return price; 
+            return _price; 
         }
         public void setId(int id)
         {
-            this.id = id;
+            this._id = id;
         }
         public int getId()
         {
-            return id;
+            return _id;
         }
     }
 }

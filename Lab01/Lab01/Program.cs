@@ -1,5 +1,7 @@
 ﻿using Lab01;
 using System;
+using System.Runtime.CompilerServices;
+[assembly: InternalsVisibleTo("Test")]
 
 namespace Lab01
 {
@@ -22,7 +24,7 @@ namespace Lab01
             Console.WriteLine("Capacity : " + backpack.Capacity());
             Console.WriteLine("Items ID's : " + backpack.ItemsId());
         }
-        static void Main(string[] args)
+        static void Main()
         {
             Backpack backpack = new Backpack();
             int itemQ = 10;

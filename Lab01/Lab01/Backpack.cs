@@ -8,50 +8,50 @@ namespace Lab01
 {
     internal class Backpack
     {
-        int capacity = 30;
-        int priceInBackpack = 0;
-        string itemsId = "";
-        bool full = false;
+        int _capacity = 30;
+        int _priceInBackpack = 0;
+        string _itemsId = "";
+        bool _full = false;
         
         public void setCapacity(int capacity)
         {
-            this.capacity = capacity;
+            this._capacity = capacity;
         }
         public int Capacity()
         { 
-            return capacity;
+            return _capacity;
         }
         public int PriceInBackpack()
         {
-            return priceInBackpack;
+            return _priceInBackpack;
         }
         public string ItemsId()
         {
-            return itemsId;
+            return _itemsId;
         }
         public void addToBackpack(int weight,int price, int id)
         {
-            if (!full)
+            if (!_full)
             {
-                if (capacity - weight > 0)
+                if (_capacity - weight > 0)
                 {
-                    capacity -= weight;
-                    priceInBackpack += price;
-                    itemsId += id.ToString() + "   ";
+                    _capacity -= weight;
+                    _priceInBackpack += price;
+                    _itemsId += id.ToString() + "   ";
                 }
-                else if(capacity - weight == 0)
+                else if(_capacity - weight == 0)
                 {
-                    capacity -= weight;
-                    priceInBackpack += price;
-                    itemsId += id.ToString() + "   ";
-                    full = true;
+                    _capacity -= weight;
+                    _priceInBackpack += price;
+                    _itemsId += id.ToString() + "   ";
+                    _full = true;
                 }
             }
         }
 
         public bool isFull()
         {
-            return full;
+            return _full;
         }
     }
 }

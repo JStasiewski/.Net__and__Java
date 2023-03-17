@@ -43,25 +43,11 @@ namespace Lab02
         {
             Backpack backpack = new Backpack();
 
-            //Console.WriteLine("Default Backpack capacity : " + backpack.Capacity() + "   Item quantity : " + itemQ);
-            //Console.WriteLine("Set other capacity and items quantity? (Y/N)");
-            //string choise = Console.ReadLine();
-            //if (choise == "Y")
-            //{
-            //    Console.WriteLine("Set custom backpack capacity:");
-            //    int customCapacity = Convert.ToInt32(Console.ReadLine());
-            //    backpack.setCapacity(customCapacity);
-            //    Console.WriteLine("Set custom items quantity:");
-            //    itemQ = Convert.ToInt32(Console.ReadLine());
-            //}
-
-            //Console.WriteLine("----------------------");
-
             List<Item> list = new List<Item>();
-            //itemst.ItemsSource = new List<Item>();
-            backpack.setCapacity(Convert.ToInt32(BackpackC.Text));
+
+            backpack.setCapacity(int.Parse(BackpackC.Text));
             itemst.Items.Clear();
-            for (int i = 0; i < Convert.ToInt32(ItemsQ.Text); i++)
+            for (int i = 0; i < int.Parse(ItemsQ.Text); i++)
             {
                 Item item = new Item();
                 list.Add(item);
@@ -74,6 +60,30 @@ namespace Lab02
             result1.Text = "Price colected : " + backpack.PriceInBackpack().ToString();
             result2.Text = "Capacity left : " + backpack.Capacity().ToString();
             result3.Text = "Taken items ID's : " + backpack.ItemsId().ToString();
+        }
+
+        private void BackpackC_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (int.TryParse(BackpackC.Text, out int result))
+            {
+                button.IsEnabled = true;
+            }
+            else
+            {
+                button.IsEnabled = false;
+            }
+        }
+
+        private void ItemsQ_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (int.TryParse(ItemsQ.Text, out int result))
+            {
+                button.IsEnabled = true;
+            }
+            else
+            {
+                button.IsEnabled = false;
+            }
         }
     }
 }

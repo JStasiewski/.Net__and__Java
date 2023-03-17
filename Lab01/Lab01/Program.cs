@@ -35,10 +35,10 @@ namespace Lab01
             if (choise == "Y")
             {
                 Console.WriteLine("Set custom backpack capacity:");
-                int customCapacity = Convert.ToInt32(Console.ReadLine());
+                int customCapacity = int.Parse(Console.ReadLine());
                 backpack.setCapacity(customCapacity);
                 Console.WriteLine("Set custom items quantity:");
-                itemQ  = Convert.ToInt32(Console.ReadLine());
+                itemQ  = int.Parse(Console.ReadLine());
             }
 
             Console.WriteLine("----------------------");

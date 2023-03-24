@@ -22,8 +22,16 @@
                    Text="Taken ID's :" x:Name="result3"/>
         </ScrollViewer>
 
-        <Button  BorderBrush="Transparent" Background="BlanchedAlmond" Content="Run" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="button"  Click="Button_Click" Height="84" Width="100" FontSize="32" Margin="211,51,0,0"/>
-
+        <!--<Button Background="BlanchedAlmond" Content="Run" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="button"  Click="Button_Click" Height="84" Width="100" FontSize="32" Margin="211,51,0,0"/>-->
+        <Border Margin="178,53,509,308" RenderTransformOrigin="0.513,0.498">
+            <Button Content="Button" x:Name="button" Background="BlanchedAlmond" Click="Button_Click">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="20"></Setter>
+                </Style>
+            </Button.Resources>
+        </Button>
+        </Border>
 
         <ListBox Margin="20,182,405,20" x:Name="itemst">
             <ListBox.ItemTemplate>

@@ -33,15 +33,26 @@ namespace API_app
             if (json != "No country found. Ty again!")
             {
                 var country = JsonSerializer.Deserialize<Country[]>(json);
+                string capitolStr = "";
 
                 ListBox1.Items.Clear();                                         // add checkboxes conditions if(checked) listbox1.items.add ...
                 ListBox1.Items.Add("Name : " + country[0].name.common);
                 ListBox1.Items.Add("Region : " + country[0].region);
-                ListBox1.Items.Add("Capitol : " + country[0].capital[0]);
+
+                foreach (string cap in country[0].capital) capitolStr += cap + " ";
+                ListBox1.Items.Add("Capitol : " + capitolStr);
                 
                 Uri img = new Uri(country[0].flags.png); // converting string to bitmap
                 BitmapImage imageSource = new BitmapImage(img);
                 Photo.Source = imageSource;
+            }
+            else
+            {
+                ListBox1.Items.Clear();
+                ListBox1.Items.Add("No country found! Try again!");
+                Uri imgNot = new Uri("https://howfix.net/wp-content/uploads/2018/02/sIaRmaFSMfrw8QJIBAa8mA-article.png"); // converting string to bitmap
+                BitmapImage imageSourceNot = new BitmapImage(imgNot);
+                Photo.Source = imageSourceNot;
             }
         }
 

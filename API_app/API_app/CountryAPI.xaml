@@ -4,8 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:API_app"
-        mc:Ignorable="d"
-        Title="CountryAPI" Height="450" Width="722">
+        mc:Ignorable="d" Title="CountryAPI" Height="450" Width="722" Icon="/icon.png">
     <Grid>
         <Button Content="Button" HorizontalAlignment="Left" 
                 Margin="220,26,0,0" VerticalAlignment="Top" 

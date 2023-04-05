@@ -16,5 +16,11 @@
         <TextBlock HorizontalAlignment="Left" Margin="40,57,0,60" 
                    TextWrapping="Wrap" Text="json" Width="303" Name="TextBlock"/>
 
+        <Border Margin="353,77,22,103" Background="GhostWhite" BorderBrush="Gainsboro" 
+                BorderThickness="1" Height="200" Width="336">
+            <Image HorizontalAlignment="Left" Height="230"
+               VerticalAlignment="Top" Width="330" Name="Photo"/>
+        </Border>
+
     </Grid>
 </Window>

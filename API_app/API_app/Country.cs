@@ -9,6 +9,7 @@ namespace API_app
     internal class Country
     {
         public Name name { get; set; }
+        public Flags flags { get; set; }
         public string region { get; set; }
         public override string ToString()
         {
@@ -18,5 +19,9 @@ namespace API_app
     internal class Name
     {
         public string common { get; set; }
+    }
+    internal class Flags
+    {
+        public string png { get; set; }
     }
 }

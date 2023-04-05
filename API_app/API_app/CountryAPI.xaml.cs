@@ -33,7 +33,10 @@ namespace API_app
             if (json != "No country found. Ty again!")
             {
                 var country = JsonSerializer.Deserialize<Country[]>(json);
-                TextBlock.Text = country[0].ToString();
+                TextBlock.Text = country[0].name.common;
+                Uri img = new Uri(country[0].flags.png);
+                BitmapImage imageSource = new BitmapImage(img);
+                Photo.Source = imageSource;
             }
         }
 

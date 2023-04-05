@@ -10,15 +10,9 @@ namespace API_app
     {
         public Name name { get; set; }
         public string region { get; set; }
-        public string Anwser()
+        public override string ToString()
         {
             return $"{this.name.common}: {this.region}";
-        }
-
-        public Country()
-        {
-            this.name.common = "";
-            this.region = "";
         }
     }
     internal class Name

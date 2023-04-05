@@ -30,8 +30,11 @@ namespace API_app
         {
             string json = await downloadData(TextBox.Text);
             TextBlock.Text = json;
-
-
+            if (json != "No country found. Ty again!")
+            {
+                var country = JsonSerializer.Deserialize<Country[]>(json);
+                TextBlock.Text = country[0].ToString();
+            }
         }
 
         private async Task<string> downloadData(string name)

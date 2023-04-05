@@ -11,11 +11,10 @@
                 Margin="220,26,0,0" VerticalAlignment="Top" 
                 Height="20" Width="122" Click="Button_Click"/>
         <TextBox HorizontalAlignment="Left" Margin="38,26,0,0" 
-                 TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" 
+                 TextWrapping="Wrap" Text="Poland" VerticalAlignment="Top" 
                  Width="164" Height="20" Name="TextBox"/>
-        <TextBlock HorizontalAlignment="Left" Margin="39,0,0,0" 
-                   TextWrapping="Wrap" Text="json" VerticalAlignment="Center" 
-                   Height="317" Width="303" Name="TextBlock"/>
+        <TextBlock HorizontalAlignment="Left" Margin="40,57,0,60" 
+                   TextWrapping="Wrap" Text="json" Width="303" Name="TextBlock"/>
 
     </Grid>
 </Window>

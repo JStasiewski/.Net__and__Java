@@ -33,11 +33,11 @@ namespace API_app
             if (json != "No country found. Ty again!")
             {
                 var country = JsonSerializer.Deserialize<Country[]>(json);
-                //TextBlock.Text = country[0].name.common;
+
                 ListBox1.Items.Clear();                                         // add checkboxes conditions if(checked) listbox1.items.add ...
                 ListBox1.Items.Add("Name : " + country[0].name.common);
                 ListBox1.Items.Add("Region : " + country[0].region);
-                ListBox1.Items.Add("Currencies : " + country[0].currencies.PLN.name +" - " + country[0].currencies.PLN.symbol);
+                ListBox1.Items.Add("Capitol : " + country[0].capital[0]);
                 
                 Uri img = new Uri(country[0].flags.png); // converting string to bitmap
                 BitmapImage imageSource = new BitmapImage(img);

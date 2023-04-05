@@ -10,14 +10,15 @@
         <Button Content="Button" HorizontalAlignment="Left" 
                 Margin="220,26,0,0" VerticalAlignment="Top" 
                 Height="20" Width="122" Click="Button_Click"/>
-        <TextBox HorizontalAlignment="Left" Margin="38,26,0,0" 
+        <TextBox HorizontalAlignment="Left" Margin="40,26,0,0" 
                  TextWrapping="Wrap" Text="Poland" VerticalAlignment="Top" 
                  Width="164" Height="20" Name="TextBox"/>
-        <TextBlock HorizontalAlignment="Left" Margin="40,57,0,60" 
-                   TextWrapping="Wrap" Text="json" Width="303" Name="TextBlock"/>
+        
+        <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" Margin="40,63,379,92"
+                 x:Name="ListBox1"/>
 
         <Border Margin="353,77,22,103" Background="GhostWhite" BorderBrush="Gainsboro" 
-                BorderThickness="1" Height="200" Width="336">
+                BorderThickness="1" Height="230" Width="336">
             <Image HorizontalAlignment="Left" Height="230"
                VerticalAlignment="Top" Width="330" Name="Photo"/>
         </Border>

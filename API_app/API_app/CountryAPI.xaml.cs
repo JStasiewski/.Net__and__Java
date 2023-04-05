@@ -29,12 +29,17 @@ namespace API_app
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
             string json = await downloadData(TextBox.Text);
-            TextBlock.Text = json;
+
             if (json != "No country found. Ty again!")
             {
                 var country = JsonSerializer.Deserialize<Country[]>(json);
-                TextBlock.Text = country[0].name.common;
-                Uri img = new Uri(country[0].flags.png);
+                //TextBlock.Text = country[0].name.common;
+                ListBox1.Items.Clear();                                         // add checkboxes conditions if(checked) listbox1.items.add ...
+                ListBox1.Items.Add("Name : " + country[0].name.common);
+                ListBox1.Items.Add("Region : " + country[0].region);
+                ListBox1.Items.Add("Currencies : " + country[0].currencies.PLN.name +" - " + country[0].currencies.PLN.symbol);
+                
+                Uri img = new Uri(country[0].flags.png); // converting string to bitmap
                 BitmapImage imageSource = new BitmapImage(img);
                 Photo.Source = imageSource;
             }

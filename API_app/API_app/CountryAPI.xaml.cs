@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -41,6 +42,8 @@ namespace API_app
 
                 foreach (string cap in country[0].capital) capitolStr += cap + " ";
                 ListBox1.Items.Add("Capitol : " + capitolStr);
+
+                ListBox1.Items.Add("Currencies : " + country[0].currencies.ToString());
                 
                 Uri img = new Uri(country[0].flags.png); // converting string to bitmap
                 BitmapImage imageSource = new BitmapImage(img);

@@ -12,6 +12,7 @@ namespace API_app
         public Flags flags { get; set; }
         public string region { get; set; }
         public string[] capital { get; set; }
+        public object currencies { get; set; }
     }
     internal class Name
     {

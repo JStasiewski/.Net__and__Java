@@ -23,9 +23,11 @@ namespace API_app
     /// </summary>
     public partial class CountryAPI : Window
     {
+        //private Set set;
         public CountryAPI()
         {
             InitializeComponent();
+            //set = new Set();
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)

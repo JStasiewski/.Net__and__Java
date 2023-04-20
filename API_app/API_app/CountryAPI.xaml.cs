@@ -19,6 +19,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Path = System.IO.Path;
 
 namespace API_app
 {
@@ -68,10 +69,13 @@ namespace API_app
 
                 foreach (string cap in country[0].capital) capitalStr += cap + " ";
 
+                string pattern = @"\""([^\""]*)\""";
                 string currStd = "";
-                if (country[0].currencies is JArray currencies)
+                MatchCollection matches = Regex.Matches(country[0].currencies.ToString(), pattern);
+
+                foreach (Match match in matches)
                 {
-                    currStd = string.Join(", ", currencies.Select(c => c["name"].ToString()));
+                    currStd += match.Groups[1].Value + " ";
                 }
 
                 ListBox1.Items.Clear();
@@ -142,21 +146,6 @@ namespace API_app
                 if (response.IsSuccessStatusCode)
                 {
                     string json = await client.GetStringAsync(call);
-
-                    using (var context = new Set())
-                    {
-                        var country = new CountryDB()
-                        {
-                            Name = "tak",
-                            Json = "tak",
-                            Region = "tak",
-                            Capital = "tak",
-                            Currencies = "tak",
-                            Image = File.ReadAllBytes("C:\\Users\\stasi\\Desktop\\Programowanie\\Projekty\\.Net__and__Java\\API_App\\API_app\\Cat03.jpg")
-                        };
-                        context.Countries.Add(country);
-                        await context.SaveChangesAsync();
-                    }
 
                     return json;
                 }

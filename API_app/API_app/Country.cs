@@ -15,10 +15,9 @@ namespace API_app
         public Name name { get; set; }
         public Flags flags { get; set; }
         public string region { get; set; }
-        [NotMapped]
         public string[] capital { get; set; }
-        [NotMapped]
         public object currencies { get; set; }
+        public byte[] Image { get; internal set; }
     }
     internal class Name
     {

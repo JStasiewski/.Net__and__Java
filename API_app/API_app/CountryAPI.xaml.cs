@@ -1,6 +1,10 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -18,74 +22,155 @@ using System.Windows.Shapes;
 
 namespace API_app
 {
-    /// <summary>
-    /// Interaction logic for CountryAPI.xaml
-    /// </summary>
     public partial class CountryAPI : Window
     {
-        //private Set set;
         public CountryAPI()
         {
             InitializeComponent();
-            //set = new Set();
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            string json = await downloadData(TextBox.Text);
+            string countryName = TextBox.Text;
 
-            if (json != "No country found. Ty again!")
+            using (var context = new Set())
+            {
+                var existingCountry = context.Countries.FirstOrDefault(c => c.Name == countryName);
+                if (existingCountry != null)
+                {
+                    ListBox1.Items.Clear();
+                    ListBox1.Items.Add("Data from DB");
+                    ListBox1.Items.Add("Name : " + existingCountry.Name);
+                    ListBox1.Items.Add("Region : " + existingCountry.Region);
+                    ListBox1.Items.Add("Capitol : " + existingCountry.Capital);
+                    ListBox1.Items.Add("Currencies : " + existingCountry.Currencies);
+
+                    byte[] imageData = existingCountry.Image;
+                    BitmapImage imageSource = new BitmapImage();
+                    using (MemoryStream ms = new MemoryStream(imageData))
+                    {
+                        imageSource.BeginInit();
+                        imageSource.CacheOption = BitmapCacheOption.OnLoad;
+                        imageSource.StreamSource = ms;
+                        imageSource.EndInit();
+                    }
+                    Photo.Source = imageSource;
+                    return;
+                }
+            }
+
+            string json = await downloadData(countryName);
+
+            if (json != "No country found. Try again!" && json != "")
             {
                 var country = JsonSerializer.Deserialize<Country[]>(json);
-                string capitolStr = "";
+                string capitalStr = "";
 
-                ListBox1.Items.Clear();                                         // add checkboxes conditions if(checked) listbox1.items.add ...
-                ListBox1.Items.Add("Name : " + country[0].name.common);
-                ListBox1.Items.Add("Region : " + country[0].region);
-
-                foreach (string cap in country[0].capital) capitolStr += cap + " ";
-                ListBox1.Items.Add("Capitol : " + capitolStr);
-
-                string pattern = @"\""([^\""]*)\""";
-
-                MatchCollection matches = Regex.Matches(country[0].currencies.ToString(), pattern);
+                foreach (string cap in country[0].capital) capitalStr += cap + " ";
 
                 string currStd = "";
-                foreach (Match match in matches)
+                if (country[0].currencies is JArray currencies)
                 {
-                    currStd += match.Groups[1].Value + " ";
+                    currStd = string.Join(", ", currencies.Select(c => c["name"].ToString()));
                 }
 
+                ListBox1.Items.Clear();
+                ListBox1.Items.Add("Name : " + country[0].name.common);
+                ListBox1.Items.Add("Region : " + country[0].region);
+                ListBox1.Items.Add("Capitol : " + capitalStr);
                 ListBox1.Items.Add("Currencies : " + currStd);
-                
-                Uri img = new Uri(country[0].flags.png); // converting string to bitmap
-                BitmapImage imageSource = new BitmapImage(img);
-                Photo.Source = imageSource;
+
+                Uri imgUri = new Uri(country[0].flags.png);
+
+                using (var client = new WebClient())
+                {
+                    byte[] imageData = await client.DownloadDataTaskAsync(imgUri);
+
+                    using (var context = new Set())
+                    {
+                        var newCountry = new CountryDB
+                        {
+                            Json = json,
+                            Name = country[0].name.common,
+                            Region = country[0].region,
+                            Capital = capitalStr,
+                            Currencies = currStd,
+                            Image = imageData
+                        };
+                        context.Countries.Add(newCountry);
+                        context.SaveChanges();
+                    }
+
+                    BitmapImage imageSource = new BitmapImage();
+                    using (MemoryStream ms = new MemoryStream(imageData))
+                    {
+                        imageSource.BeginInit();
+                        imageSource.CacheOption = BitmapCacheOption.OnLoad;
+                        imageSource.StreamSource = ms;
+                        imageSource.EndInit();
+                    }
+                    Photo.Source = imageSource;
+                }
             }
             else
             {
                 ListBox1.Items.Clear();
                 ListBox1.Items.Add("No country found! Try again!");
                 Uri imgNot = new Uri("https://howfix.net/wp-content/uploads/2018/02/sIaRmaFSMfrw8QJIBAa8mA-article.png"); // converting string to bitmap
-                BitmapImage imageSourceNot = new BitmapImage(imgNot);
-                Photo.Source = imageSourceNot;
+                BitmapImage imageSource;
             }
         }
 
         private async Task<string> downloadData(string name)
         {
-            HttpClient client = new HttpClient();
-            string call = $"https://restcountries.com/v3.1/name/{name}";
-            HttpResponseMessage response = await client.GetAsync(call);
-            if (response.IsSuccessStatusCode)
+            using (var context = new Set())
             {
-                string json = await client.GetStringAsync(call);
-                return json;
+                var existingCountry = await context.Countries.FirstOrDefaultAsync(c => c.Name == name);
+
+                if (existingCountry != null)
+                {
+                    return existingCountry.Json;
+                }
             }
-            else
+
+            try
             {
-                return "No country found. Ty again!";
+                HttpClient client = new HttpClient();
+                string call = $"https://restcountries.com/v3.1/name/{name}";
+                HttpResponseMessage response = await client.GetAsync(call);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = await client.GetStringAsync(call);
+
+                    using (var context = new Set())
+                    {
+                        var country = new CountryDB()
+                        {
+                            Name = "tak",
+                            Json = "tak",
+                            Region = "tak",
+                            Capital = "tak",
+                            Currencies = "tak",
+                            Image = File.ReadAllBytes("C:\\Users\\stasi\\Desktop\\Programowanie\\Projekty\\.Net__and__Java\\API_App\\API_app\\Cat03.jpg")
+                        };
+                        context.Countries.Add(country);
+                        await context.SaveChangesAsync();
+                    }
+
+                    return json;
+                }
+                else
+                {
+                    return "No country found. Try again!";
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message);
+                return "";
             }
         }
+
     }
 }

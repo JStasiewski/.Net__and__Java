@@ -16,7 +16,8 @@ namespace API_app
             Database.EnsureCreated();
 
         }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseSqlite(@"Data Source=Country.db");
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
+            => optionsBuilder.UseSqlite(@"Data Source=Country.db");
     }
 
     internal class CountryDB

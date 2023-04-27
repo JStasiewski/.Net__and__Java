@@ -22,6 +22,7 @@ class KnapsackProblem
                     K[i, w] = K[i - 1, w];
             }
         }
+        
 
         return K[n, capacity];
     }
@@ -53,7 +54,7 @@ class KnapsackProblem
         int n = values.Length;
         int[,] K = new int[n + 1, capacity + 1];
 
-        int threadsCount = Math.Min(n, 4);
+        int threadsCount = Math.Min(n, 3);
         int rowsPerThread = n / threadsCount;
         
 
@@ -63,23 +64,23 @@ class KnapsackProblem
         {
             int start = t * rowsPerThread;
             int end = (t == threadsCount - 1) ? n : start + rowsPerThread;
-
+            
             Thread thread = new Thread(() =>
             {
-                lock (_lock)
-                {
 
                     for (int i = start + 1; i <= end; i++)
                     {
                         for (int w = 0; w <= capacity; w++)
                         {
+                        
                             if (weights[i - 1] <= w)
                                 K[i, w] = Math.Max(values[i - 1] + K[i - 1, w - weights[i - 1]], K[i - 1, w]);
                             else
                                 K[i, w] = K[i - 1, w];
                         }
+            
                     }
-                }
+                
             });
 
             threads.Add(thread);
@@ -90,6 +91,9 @@ class KnapsackProblem
         {
             thread.Join();
         }
+
+       
+
 
         return K[n, capacity];
     }
@@ -107,10 +111,9 @@ class KnapsackProblem
 
         for (int i = 0; i < n; i++)
         {
-            values[i] = rnd.Next(1, 101);
-            weights[i] = rnd.Next(1, 101);
+            values[i] = rnd.Next(1, 11);
+            weights[i] = rnd.Next(1, 11);
         }
-
 
         Stopwatch stopwatch = new Stopwatch();
 

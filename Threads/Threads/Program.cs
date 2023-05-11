@@ -7,7 +7,7 @@ class Program
     static void Main(string[] args)
     {
         int numThreads = 4;             // Liczba wątków
-        int iterationsPerThread = 30000;// Liczba iteracji na każdy wątek
+        int iterationsPerThread = 35000;// Liczba iteracji na każdy wątek
         double[] results = new double[numThreads]; // Tablica wyników dla każdego wątku
 
         Stopwatch sw = Stopwatch.StartNew();  // Uruchomienie stopera

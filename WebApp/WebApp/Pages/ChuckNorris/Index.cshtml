@@ -1,0 +1,25 @@
+﻿@page
+@model WebApp.Pages.ChuckNorris.IndexModel
+
+<div class="Front">
+    <h1>Wanna hear some Joke?</h1>
+    <img src="https://openseauserdata.com/files/b8d6c259f5a77379982b1a62e509b308.png" height="200" />
+</div>
+
+<p id="jokeText">@Model.Joke</p>
+
+<button id="getJokeButton" onclick="refreshPage()">Give me another</button>
+
+<script>
+    function refreshPage() {
+        location.reload();
+    }
+</script>
+
+<style>
+    .Front {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+</style>

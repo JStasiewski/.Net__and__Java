@@ -1,0 +1,173 @@
+﻿@page
+@model WebApp.Pages.Cookies.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="Front">
+    <h1>Want some Cookies?</h1>
+    <img src="https://fabryka-naklejek.com/2873-large_default/naklejka-cookie-monster-10cm.jpg" height="200"/>
+</div>
+
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Cookies[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cookies[0].CountryOrigin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cookies[0].Ingredients)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cookies[0].PreparationTime)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Cookies) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CountryOrigin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ingredients)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PreparationTime)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<br/>
+<div class="FinderTinder">
+    <div>
+        <p>Find Cookies by Name</p>
+        <input id="nameFilterInput" />
+    </div>
+    <div>
+        <p>Find Cookies by Country</p>
+        <input id="countryFilterInput" />
+    </div>
+    <div>
+        <p>Find Cookies by Ingredients</p>
+        <input id="ingredientsFilterInput" />
+    </div>
+</div>
+
+<script>
+    // Get the input element for filtering by name
+    var nameFilterInput = document.getElementById('nameFilterInput');
+
+    // Add an event listener for the 'input' event
+    nameFilterInput.addEventListener('input', function () {
+        // Get the entered value
+        var nameFilterValue = nameFilterInput.value.toLowerCase();
+
+        // Get all the table rows
+        var tableRows = document.querySelectorAll('tbody tr');
+
+        // Loop through the table rows
+        for (var i = 0; i < tableRows.length; i++) {
+            // Get the name column for each row
+            var name = tableRows[i].querySelector('td:nth-child(1)').textContent.toLowerCase();
+
+            // Check if the name matches the filter value
+            if (name.includes(nameFilterValue)) {
+                // Display the row
+                tableRows[i].style.display = '';
+            } else {
+                // Hide the row
+                tableRows[i].style.display = 'none';
+            }
+        }
+    });
+</script>
+
+<script>
+    // Get the input element
+    var countryFilterInput = document.getElementById('countryFilterInput');
+
+    // Add an event listener for the 'input' event
+    countryFilterInput.addEventListener('input', function () {
+        // Get the entered value
+        var filterValue = countryFilterInput.value.toLowerCase();
+
+        // Get all the table rows
+        var tableRows = document.querySelectorAll('tbody tr');
+
+        // Loop through the table rows
+        for (var i = 0; i < tableRows.length; i++) {
+            // Get the country origin column for each row
+            var countryOrigin = tableRows[i].querySelector('td:nth-child(2)').textContent.toLowerCase();
+
+            // Check if the country origin matches the filter value
+            if (countryOrigin.includes(filterValue)) {
+                // Display the row
+                tableRows[i].style.display = '';
+            } else {
+                // Hide the row
+                tableRows[i].style.display = 'none';
+            }
+        }
+    });
+</script>
+
+<script>
+    // Get the input element for filtering by ingredients
+    var ingredientsFilterInput = document.getElementById('ingredientsFilterInput');
+
+    // Add an event listener for the 'input' event
+    ingredientsFilterInput.addEventListener('input', function () {
+        // Get the entered value
+        var ingredientsFilterValue = ingredientsFilterInput.value.toLowerCase();
+
+        // Get all the table rows
+        var tableRows = document.querySelectorAll('tbody tr');
+
+        // Loop through the table rows
+        for (var i = 0; i < tableRows.length; i++) {
+            // Get the ingredients column for each row
+            var ingredients = tableRows[i].querySelector('td:nth-child(3)').textContent.toLowerCase();
+
+            // Check if the ingredients match the filter value
+            if (ingredients.includes(ingredientsFilterValue)) {
+                // Display the row
+                tableRows[i].style.display = '';
+            } else {
+                // Hide the row
+                tableRows[i].style.display = 'none';
+            }
+        }
+    });
+</script>
+
+<style>
+    .Front {
+        display: flex;
+        align-items: center;
+    }
+
+    .FinderTinder{
+        display: flex;
+        justify-content: space-evenly;
+        /*gap: 50px;*/
+    }
+</style>
+

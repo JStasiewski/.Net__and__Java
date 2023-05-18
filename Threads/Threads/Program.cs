@@ -12,7 +12,7 @@ class KnapsackProblem
 
         for (int i = 0; i <= n; i++)
         {
-            for (int w = 0; w <= capacity; w++)
+            for (w = 0; w <= capacity; w++)
             {
                 if (i == 0 || w == 0)
                     K[i, w] = 0;
@@ -21,43 +21,20 @@ class KnapsackProblem
                 else
                     K[i, w] = K[i - 1, w];
             }
-        }
 
+        }
         return K[n, capacity];
     }
-
-    //          Wersia z równoległym wykonywaniem ale na Parallel a nie Thread
-    //static int KnapsackWithThreads(int[] values, int[] weights, int capacity)
-    //{
-    //    int n = values.Length;
-    //    int[,] K = new int[n + 1, capacity + 1];
-
-    //    for (int i = 0; i <= n; i++)
-    //    {
-    //        Parallel.For(0, capacity + 1, w =>
-    //        {
-    //            if (i == 0 || w == 0)
-    //                K[i, w] = 0;
-    //            else if (weights[i - 1] <= w)
-    //                K[i, w] = Math.Max(values[i - 1] + K[i - 1, w - weights[i - 1]], K[i - 1, w]);
-    //            else
-    //                K[i, w] = K[i - 1, w];
-    //        });
-    //    }
-
-    //    return K[n, capacity];
-    //}
 
     static int KnapsackWithThreads(int[] values, int[] weights, int capacity)
     {
         int n = values.Length;
         int[,] K = new int[n + 1, capacity + 1];
 
-        int threadsCount = Math.Min(n, 4);
+        int threadsCount = 4;
         int rowsPerThread = n / threadsCount;
-        
 
-    List<Thread> threads = new List<Thread>();
+        List<Thread> threads = new List<Thread>();
 
         for (int t = 0; t < threadsCount; t++)
         {
@@ -66,18 +43,14 @@ class KnapsackProblem
 
             Thread thread = new Thread(() =>
             {
-                lock (_lock)
+                for (int i = start + 1; i <= end; i++)
                 {
-
-                    for (int i = start + 1; i <= end; i++)
+                    for (int w = 0; w <= capacity; w++)
                     {
-                        for (int w = 0; w <= capacity; w++)
-                        {
-                            if (weights[i - 1] <= w)
-                                K[i, w] = Math.Max(values[i - 1] + K[i - 1, w - weights[i - 1]], K[i - 1, w]);
-                            else
-                                K[i, w] = K[i - 1, w];
-                        }
+                        if (weights[i - 1] <= w)
+                            K[i, w] = Math.Max(values[i - 1] + K[i - 1, w - weights[i - 1]], K[i - 1, w]);
+                        else
+                            K[i, w] = K[i - 1, w];
                     }
                 }
             });
@@ -94,13 +67,10 @@ class KnapsackProblem
         return K[n, capacity];
     }
 
-
-    private static readonly object _lock = new object();
-
     static void Main(string[] args)
     {
-        int n = 1000000;
-        int capacity = 1000;
+        int n = 1000;
+        int capacity = 100;
         int[] values = new int[n];
         int[] weights = new int[n];
         Random rnd = new Random();

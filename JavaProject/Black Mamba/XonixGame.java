@@ -282,4 +282,8 @@ public class XonixGame extends JFrame {
             }
         }
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> a85188143c3bed8a71c20643cbb64038ac8ca0cb

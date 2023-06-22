@@ -1,8 +1,7 @@
 import javax.swing.*;
-import javax.swing.text.html.HTMLDocument.BlockElement;
-
 import java.awt.*;
 import javax.imageio.ImageIO;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
@@ -13,7 +12,7 @@ public class Xonix extends JPanel implements Runnable, KeyListener {
 
     boolean isRunning;
     Thread thread;
-    BufferedImage view, titles, gameOver, enemy; 
+    BufferedImage win , view, titles, gameOver, enemy; 
 
     int N = 40 , M = 25;
     int titleSize = 16;
@@ -23,9 +22,11 @@ public class Xonix extends JPanel implements Runnable, KeyListener {
     int x = 0, y = 0, dx = 0, dy = 0;
     double timer = 0.0, delay = 0.5;
     int[][] grid;
-    int enemyCount = 4;
     Xonix.Enemy[] enemies;
     double rotate;
+
+    int enemy_speed = 6;
+    int enemyCount = 4;
 
 
     public Xonix() {
@@ -72,8 +73,9 @@ public class Xonix extends JPanel implements Runnable, KeyListener {
             view = new  BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
             titles = ImageIO.read(getClass().getResource("square2.png"));
             gameOver = ImageIO.read(getClass().getResource("game_over.png"));
-            //enemy = ImageIO.read(getClass().getResource("zibi.png"));
-            enemy = titles.getSubimage(40, 0, titleSize, titleSize);
+            win = ImageIO.read(getClass().getResource("win.png"));
+            enemy = ImageIO.read(getClass().getResource("zibi.png"));
+            //enemy = titles.getSubimage(40, 0, titleSize, titleSize);
 
             grid = new int[M][N];
             for (int i = 0; i < M; i++) {
@@ -95,81 +97,96 @@ public class Xonix extends JPanel implements Runnable, KeyListener {
     }
 
     public void update() {
-        rotate += 16;
+    rotate += 16;
 
-        if(rotate >= 360) 
-            rotate = 0;
+    if (rotate >= 360)
+        rotate = 0;
 
-        if (left) {
-            dx = -1;
-            dy = 0;
-        }
-        if(right) {
-            dx = 1;
-            dy = 0;
-        }
-        if(up) {
-            dx = 0;
-            dy = -1;
-        }
-        if(down) {
-            dx = 0;
-            dy = 1;
+    if (left) {
+        dx = -1;
+        dy = 0;
+    }
+    if (right) {
+        dx = 1;
+        dy = 0;
+    }
+    if (up) {
+        dx = 0;
+        dy = -1;
+    }
+    if (down) {
+        dx = 0;
+        dy = 1;
+    }
+
+    timer += 0.3;
+
+    if (timer > delay) {
+        x += dx;
+        y += dy;
+
+        if (x < 0)
+            x = 0;
+        if (x > N - 1)
+            x = N - 1;
+        if (y < 0)
+            y = 0;
+        if (y > M - 1)
+            y = M - 1;
+
+        if (grid[y][x] == 2) {
+            isRunning = false;
         }
 
-        timer += 0.3;
+        if (grid[y][x] == 0)
+            grid[y][x] = 2;
 
-        if (timer > delay) {
-            x += dx;
-            y += dy;
+        timer = 0;
+    }
 
-            if (x < 0)
-                x = 0;
-            if( x > N-1)
-                x = N-1;
-            if (y < 0)
-                y = 0;
-            if(y > M-1)
-                y = M-1;
-            
-            if(grid[y][x] == 2) {
-                isRunning = false;
-            }
-            
-            if(grid[y][x] == 0)
-                grid[y][x] = 2;
-            
-            timer = 0;
-        }
+    for (int i = 0; i < enemyCount; i++) {
+        enemies[i].move();
+    }
+
+    if (grid[y][x] == 1) {
+        dx = dy = 0;
 
         for (int i = 0; i < enemyCount; i++) {
-            enemies[i].move();
+            drop(enemies[i].posY / titleSize, enemies[i].posX / titleSize);
         }
 
-        if (grid[y][x] == 1) {
-            dx = dy = 0;
-
-            for (int i = 0; i < enemyCount; i++) {
-                drop(enemies[i].posY / titleSize, enemies[i].posX / titleSize);
-            }
-
-            for (int i = 0; i < M; i++) {
-                for (int j = 0; j < N; j++) {
-                    if (grid[i][j] == -1)
-                        grid[i][j] = 0;
-                    else
-                        grid[i][j] = 1;
-                }
-            }
-        }
-
-        for (int i = 0; i < enemyCount; i++) {
-            if (enemies[i].isCollided(2)) {
-                isRunning = false;
-                break;
+        for (int i = 0; i < M; i++) {
+            for (int j = 0; j < N; j++) {
+                if (grid[i][j] == -1)
+                    grid[i][j] = 0;
+                else
+                    grid[i][j] = 1;
             }
         }
     }
+
+    for (int i = 0; i < enemyCount; i++) {
+        if (enemies[i].isCollided(2)) {
+            isRunning = false;
+            break;
+        }
+    }
+
+    int totalTiles = M * N;
+    int filledTiles = 0;
+    for (int i = 0; i < M; i++) {
+        for (int j = 0; j < N; j++) {
+            if (grid[i][j] == 2)
+                filledTiles++;
+        }
+    }
+
+    double filledPercentage = (double) filledTiles / totalTiles;
+    if (filledPercentage >= 0.75) {
+        isRunning = false;
+        System.out.println("Congratulations! You filled 75% of the area.");
+    }
+}
 
     public void draw() {
         Graphics2D g2 = (Graphics2D) view.getGraphics();
@@ -211,19 +228,48 @@ public class Xonix extends JPanel implements Runnable, KeyListener {
             g2.drawImage(enemy, transform, null); 
         }
 
-        if (!isRunning) {
-            g2.drawImage(
-                gameOver,
-                WIDTH / 10 * 3,
-                HEIGHT / 10 * 3,
-                gameOver.getWidth(),
-                gameOver.getHeight(),
-                null
-            );
-        }
+        if (checkWinCondition()) {
+        isRunning = false;
+        g2.drawImage(
+            win,
+            WIDTH / 10 * 3,
+            HEIGHT / 10 * 3,
+            gameOver.getWidth(),
+            gameOver.getHeight(),
+            null
+        );
+    } else if (!isRunning) {
+        g2.drawImage(
+            gameOver,
+            WIDTH / 10 * 3,
+            HEIGHT / 10 * 3,
+            gameOver.getWidth(),
+            gameOver.getHeight(),
+            null
+        );
+    }
 
-        Graphics g = getGraphics();
-        g.drawImage(view, 0, 0, WIDTH, HEIGHT, null);
+        int totalTiles = (M - 2) * (N - 2);
+        int filledTiles = 0;
+        for (int i = 1; i < M - 1; i++) {
+            for (int j = 1; j < N - 1; j++) {
+                if (grid[i][j] == 1)
+                    filledTiles++;
+        }
+    }
+
+    double filledPercentage = (double) filledTiles / totalTiles;
+    int percentage = (int) (filledPercentage * 100);
+
+    // Draw the percentage filled
+    String percentageText = "Filled: " + percentage + "%";
+    g2.setColor(Color.WHITE);
+    g2.setFont(new Font("Arial", Font.BOLD, 16));
+    g2.drawString(percentageText, 10, HEIGHT - 10);
+
+    // Draw the updated view to the panel
+    Graphics g = getGraphics();
+    g.drawImage(view, 0, 0, WIDTH, HEIGHT, null);
     }
 
     @Override
@@ -235,6 +281,7 @@ public class Xonix extends JPanel implements Runnable, KeyListener {
                 update();
                 draw();
                 Thread.sleep(1000/60);
+
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -249,18 +296,24 @@ public class Xonix extends JPanel implements Runnable, KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+        if (e.getKeyCode() == KeyEvent.VK_RIGHT) 
             right = true;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+        
+        if (e.getKeyCode() == KeyEvent.VK_LEFT) 
             left = true;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_UP) {
+        
+        if (e.getKeyCode() == KeyEvent.VK_UP) 
             up = true;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+        
+        if (e.getKeyCode() == KeyEvent.VK_DOWN) 
             down = true;
-        }
+        
+        if (e.getKeyCode() == KeyEvent.VK_Y)
+            restartGame();
+        
+        if (e.getKeyCode() == KeyEvent.VK_N)
+            System.exit(0);
+
     }
 
     @Override
@@ -293,18 +346,20 @@ public class Xonix extends JPanel implements Runnable, KeyListener {
         }
 
         void move() {
-            posX += dx;
+            posX += dx * enemy_speed;
+            
             if (isCollided(1)) {
                 dx = -dx;
-                posX += dx;
+                posX += dx * enemy_speed;
             }
 
-            posY += dy;
+            posY += dy * enemy_speed;
+
             if(isCollided(1)) {
                 dy = -dy;
-                posY += dy;
+                posY += dy * enemy_speed;
             }
-        }
+}
 
         boolean isCollided(int object) {
             return (grid[posY / titleSize][posX / titleSize] == object ||
@@ -313,4 +368,61 @@ public class Xonix extends JPanel implements Runnable, KeyListener {
                     grid[((posY + size) / titleSize) - 1][((posX + size) / titleSize) - 1] == object);
         }
     }
+
+    public void restartGame() {
+
+    x = 0;
+    y = 0;
+    dx = 0;
+    dy = 0;
+
+    for (int i = 0; i < M; i++) {
+        for (int j = 0; j < N; j++) {
+            if (i == 0 || j == 0 || i == M - 1 || j == N - 1) {
+                grid[i][j] = 1;
+            } else {
+                grid[i][j] = 0;
+            }
+        }
+    }
+
+    for (int i = 0; i < enemyCount; i++) {
+        enemies[i] = new Enemy();
+    }
+
+    isRunning = true;
+    }
+
+    public boolean askToRestart(KeyEvent key) {
+    while (true) {
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        
+        if (key.getKeyCode() == KeyEvent.VK_Y) {
+            return true;
+        } else if (key.getKeyCode() == KeyEvent.VK_N) {
+            return false;
+        }
+    }
+    }
+
+    public boolean checkWinCondition() {
+    int totalCells = (M-2)*(N-2);  // Total number of cells in the grid
+    int filledCells = 0;    // Count of cells equal to 1
+    
+    for (int i = 1; i < M-1; i++) {
+        for (int j = 1; j < N-1; j++) {
+            if (grid[i][j] == 1) {
+                filledCells++;
+            }
+        }
+    }
+    
+    double filledPercentage = (double) filledCells / totalCells * 100;
+    
+    return filledPercentage >= 75.0;
+}
 }
